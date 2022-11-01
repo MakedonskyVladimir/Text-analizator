@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Анализатор текста</h1>
+    <textarea id="text" cols="30" rows="10"></textarea>
+    <br>
+    <span>Количество слов: </span>
+    <input id="p1" type="checkbox">
+    <br>
+    <span>Количество символов: </span>
+    <input id="s1" type="checkbox">
+    <br>
+    <span>Количество символов (без пробелов): </span>
+    <input id="w1" type="checkbox">
+    <br>
+    <span>По каждому символу: </span>
+    <input id="pr1" type="checkbox">
+    <p id="p"></p>
+    <p id="s"></p>
+    <p id="w"></p>
+    <p id="pr"></p>
+
+
+    <script>
+        const text = document.querySelector('#text') 
+        const p1 = document.querySelector('#p1')
+        const s1 = document.querySelector('#w1')
+        const w1 = document.querySelector('#w1')
+        const pr1 = document.querySelector('#pr1')
+        console.log(p1)
+        text.addEventListener('blur', function() {
+            const wordsCount = text.value.split(' ').length
+            if (p1.checked) {
+                const answer1 = `Слов:   ${wordsCount}`
+                const p = document.querySelector('#p')
+                p.textContent = answer1
+            }
+            if (s1.checked) {
+                const symbolsCount = text.value.length
+                const answer2 = `Символов: ${symbolsCount}`
+                const s = document.querySelector('#s')
+                s.textContent = answer2
+            }
+            if (w1.checked) {
+                const symbolsCount = text.value.length
+                const w = document.querySelector('#w')
+                const letterCount = symbolsCount - wordsCount + 1
+                w.textContent = `Букв: ${letterCount}`
+            }
+            if (pr1.checked) {
+                const symbol = {}
+                const res = [] 
+                for (let leter of text.value.split('')) {
+                    leter = leter.toLowerCase()
+                    if (symbol[leter]) {
+                        symbol[leter]++
+                    } else {
+                        symbol[leter] = 1
+                    }
+                }
+                for (let key in symbol) {
+                    res.push(key + ': ' + ((100 * symbol[key]) / text.value.length).toFixed(1) + "%   ")
+                }
+                const pr = document.querySelector('#pr')
+                pr.textContent = res
+            }
+        })
+    </script>
+</body>
+</html>
